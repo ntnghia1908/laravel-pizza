@@ -1,62 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Laravel 1st project
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### 1. Install **Xampp**
 
-## About Laravel
+### 2. Install **Composer** 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+[composer]: https://getcomposer.org/download/	"link"
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **<u>Importance:</u> Link to correct php.exe version** in the xampp folder
+- Open cmd `composer -V` to check composer version
+- Run: `composer global require laravel/installer`
+- Create new project: `laravel new <project name>`
+- Modify `.env.json` for DB connection and other config
+- Start server: `php artisan server`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 3. Controller
 
-## Learning Laravel
+1. Create a **controller**: `php artisan make:controller <name>`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2. Mapping from Route to controller the 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+   -  In the **second args of the route**: `[<controller'name>]::class, '<function's name>']`
 
-## Laravel Sponsors
+   ```php
+     Example: Route::get('/pizza', [PizzaController::class, 'index']);
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### 4. **Migration**:
 
-### Premium Partners
+1. Create migration: `php artisan make:magration create_pizzas_table`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+2. Run migrate: `php artisan migrate`
 
-## Contributing
+3. Some migrate command: `migrate:rollback`, `migrate:status`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. To **add more column**:
 
-## Code of Conduct
+   - Create new migrate file: `php artisan make:magration add_price_to_<table'name>_table'`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+     Ex `php artisan make:migration add_price_to_pizzas_table`
 
-## Security Vulnerabilities
+   - Then add new column in the new file
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   - Run `php artisan migrate`
 
-## License
+### 5. Eloquent Models: (Data Object mapping like JPL and Entity Framework)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. Create model: `php artisan make:model Pizza`
+
+   > **NOTE**: The **model's name** mapping with the **table's name** in DB.
+   >
+   > 	If you want to manfully connect to table then in the model file 
+
+
+
+## Appendix
+
+### Deploy a project
+
+1. Clone project
+2. Check `.env` file
+3. Migrate database.
+4. Many bug can by fixed by run: `composer update --no-scripts`  
+
+### VS Configure for Laravel
+
+**Useful extension:**
+
+1. PHP IntelliSense
+
+2. Laravel Blade Snippets
+
+3. Laravel Extra IntelliSense
+
+4. Then add following code to `settings.json`
+
+   ```json
+   "emmet.triggerExpansionOnTab": true, // enable tab to expanse emmet tags
+       "blade.format.enable": true,
+       "emmet.includeLanguages": {
+           "blade": "html"
+       },
+       "[blade]": {
+           "editor.autoClosingBrackets": "always"
+       },
+   ```
+
+   
+
+### Some bug
+
+1. bootstrap/../vendor/autoload.php. Failed to open stream: No such file or directory. The "vendor" folder does not exist.
+
+   ```php
+   Fixed by run: composer update --no-scripts  
+   ```
+
+   
